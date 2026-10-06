@@ -1,0 +1,93 @@
+# Phase 2: from detections to "who is wearing what" and to confirmed events.
+# Used by scripts/monitor.py and scripts/check_ppe_rules.py. How each part works:
+#   rules      src/ppe_monitor/rules/ppe.py      (matching helmets/vests to people, one frame)
+#   pose       src/ppe_monitor/vision/pose.py     (body keypoints: where the head is, posture)
+#   tracking   src/ppe_monitor/vision/tracking.py (ByteTrack person IDs)
+#   events     src/ppe_monitor/rules/events.py    (voting, dwell, cooldown)
+# Walking, bending and crouching: docs/decisions/0004-posture-aware-ppe-rule.md.
+
+# The detector these settings were checked with. monitor.py warns if a different model is used.
+# Chosen for ppe3_yolo26n_baseline (Phase 1); re-checked for the fine-tuned ppe4_yolo26n_finetune,
+# in use since 25 Sep 2026 (docs/finetune_results.md): the same thresholds suit it. Re-checked again
+# for ppe4caps_yolo26n_caps2 (taught that caps and hats aren't helmets, 29 Sep 2026; docs/caps_results.md):
+# at these thresholds wearers are judged "missing" as often as before (2.7 %). `mac_caps.sh accept`
+# sets the line below to it.
+model: ppe4caps_yolo26n_caps2
+
+# Minimum detection confidence per class, before any rule sees the box.
+# Chosen on the validation split with scripts/check_ppe_rules.py --sweep (docs/phase2_results.md).
+# 0.25 instead of 0.35 cut the per-frame false "missing" answers for people wearing the item from
+# 7.8% to 5.2% (helmet) and 7.0% to 4.1% (vest). Bare heads judged as wearing a helmet stayed at
+# 3.9%; torsos without a vest judged as wearing one rose from 2.0% to 3.9%.
+thresholds:
+  person: 0.40
+  helmet: 0.25
+  vest: 0.25
+
+# Where worn PPE sits in a person's box (fractions of the person box, see rules/ppe.py).
+# Set from 5,900 labelled helmets and vests in the training and validation images. The head region
+# below holds 98.5% of worn helmets' centres (95% sit within the top 22% of the person's height).
+rules:
+  head_top: -0.10
+  head_bottom: 0.35
+  head_side: 0.05
+  torso_top: 0.15
+  torso_bottom: 0.85
+  torso_side: 0.0
+  vest_inside: 0.5
+  # People shorter than this, in pixels at the detector's input, are not judged ("unknown").
+  # The helmet on a 64 px person is about 10 px tall, near the smallest the detector finds.
+  # The public data has almost no people this small, so CHECK THESE ON YOUR OWN CLIPS.
+  min_height_helmet: 64
+  min_height_vest: 48
+  edge: 0.005
+  # With keypoints: a helmet also counts when its centre is within 1.25 neck-lengths of the head and
+  # not more than 1.5 below it. On labelled training + validation images this found 98% of worn
+  # helmets on people bending over (box rule alone: 92%) and 55% on people lying down (box rule: 0%).
+  head_pose_radius: 1.25
+  head_pose_below: -1.5
+  # No helmet found on someone bent over, crouching or lying whose head is out of sight (only their
+  # back in view) = "unknown": they are judged once the head is back in view. If the head can be
+  # seen, a missing helmet counts as missing in any posture.
+  bent_head_hidden_is_unknown: true
+
+# Body keypoints (a second, small COCO-pretrained model; nothing to train). They say where the head
+# and torso really are, so the helmet of someone bent over, crouching or lying is still found, and the
+# posture is known (see src/ppe_monitor/vision/pose.py). Runs only on frames with people in them and
+# costs about as much time as the detector. enabled: false = the box rule alone.
+pose:
+  enabled: true
+  model: yolo26n-pose.pt   # downloaded automatically into models/pretrained/ on first use
+  keypoint_conf: 0.5       # keypoints less certain than this are ignored
+  conf: 0.25               # people found by the keypoint model with less confidence are ignored
+  every: 2                 # run it on 1 frame in 2 (per camera); the frame between carries each person's
+                           # last keypoints, moved onto their new box. Halves its cost, so one Mac watches
+                           # 8 cameras instead of 4 at 10 frames a second (docs/phase4_results.md). 1 = every frame.
+
+tracking:
+  high: 0.40          # = person threshold above
+  low: 0.10           # weaker person detections only keep an existing track alive
+  new_track: 0.50
+  lost_seconds: 2.0   # a person hidden for up to 2 s gets the same ID back
+  match: 0.7          # IoU x confidence >= 0.3 to continue a track
+  lost_damping: 0.8   # a hidden person's predicted box slows down instead of drifting
+  relink: 0.5         # a new track within half a person-height of where a just-lost one would be now takes its ID ...
+  walk_speed: 0.8     # ... plus 0.8 person-heights per second it was lost (walking pace)
+  buffer_rate: 1.8    # boxes are widened by (1.8 x seconds between frames - 0.1) before comparing: skipped frames
+  duplicate: 0.85     # a person box inside another with the head in the same place = one person seen twice
+
+# How per-frame answers become events, for every rule in configs/rules.yaml. dwell and cooldown here
+# are the defaults for rules that don't set their own.
+events:
+  window: 1.0         # seconds of per-frame verdicts in the majority vote
+  min_votes: 3
+  ratio: 0.6          # more than 60% "missing" votes in the window = violating
+  dwell: 3.0          # must last 3 s before it becomes an event (book: 2-3 s)
+  gap: 1.0
+  clear: 2.0          # compliant for 2 s = the episode is over
+  cooldown: 60.0      # same person, same kind: at most one event per minute
+  same_place_iou: 0.3     # a new violation overlapping an ongoing incident this much joins it
+  same_place_inside: 0.7  # ... or with one box this much inside the other (partly hidden person)
+  forget: 10.0
+  buffer_rate: 1.8    # an incident follows its person across skipped frames (boxes widened by 1.8 x seconds - 0.1)
+  handover: 1.0       # a new track in a lost owner's place (started at most 1 s before the loss) takes the incident over

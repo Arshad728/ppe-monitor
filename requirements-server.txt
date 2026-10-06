@@ -1,0 +1,14 @@
+# Phase 5: the database, the alert worker and the dashboard.
+#   pip install -r requirements-server.txt       (bash scripts/mac_phase5.sh setup does it)
+# The PostgreSQL server itself comes from conda-forge into the same environment (the setup does
+# that too): conda install -n ppe -c conda-forge postgresql=16
+-r requirements.txt
+# Tables and queries, the same code for PostgreSQL and SQLite
+SQLAlchemy==2.0.54
+# The PostgreSQL driver (the "binary" extra brings its own libpq)
+psycopg[binary]==3.3.6
+# The dashboard's API and web server
+fastapi==0.141.1
+uvicorn==0.54.0
+# Telegram's API (and FastAPI's test client)
+httpx==0.28.1

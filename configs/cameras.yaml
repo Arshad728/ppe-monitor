@@ -1,0 +1,48 @@
+# Camera registry: every camera the system watches.
+#
+# Fields
+#   id          short unique name (lowercase letters, digits, - or _); used in logs, URLs, the database
+#   name        human-readable label shown on alerts and the dashboard
+#   url         RTSP address of the stream. ${VAR} is replaced from the environment or from
+#               configs/secrets.env, so a real camera's password never has to be written in this file:
+#                 url: rtsp://admin:${CAM_GATE_PASSWORD}@192.168.1.64:554/Streaming/Channels/102
+#               with CAM_GATE_PASSWORD=... in configs/secrets.env. Use the camera's sub-stream
+#               (lower resolution, e.g. 720p): the model looks at 640 pixels anyway. Common addresses
+#               (check your camera's manual):
+#                 Hikvision:        rtsp://USER:PASS@IP:554/Streaming/Channels/102    (101 = main stream)
+#                 Dahua / CP Plus:  rtsp://USER:PASS@IP:554/cam/realmonitor?channel=1&subtype=1
+#   transport   tcp (default, reliable) or udp (lower latency, can drop packets) - see Chapter 11
+#   enabled     false to keep an entry but skip it
+#   sim_source  DEVELOPMENT ONLY: a local video file that scripts/fake_cameras.py loops into `url`.
+#               Remove this field for a real camera.
+#
+# Phase 0: three simulated cameras fed by synthetic clips (python scripts/make_test_clips.py).
+# Once you have real test clips, point sim_source at them instead, e.g.
+#   sim_source: data/clips/site1_gate_day_01.mp4
+#
+# A real camera (docs/USER_GUIDE.md, "Use it on your cameras"): add an entry like this one, without
+# sim_source, and remove or disable (enabled: false) the simulated ones you don't want:
+#
+#  - id: gate
+#    name: Main gate
+#    url: rtsp://admin:${CAM_GATE_PASSWORD}@192.168.1.64:554/Streaming/Channels/102
+#    transport: tcp
+
+cameras:
+  - id: cam1
+    name: Main gate (simulated)
+    url: rtsp://localhost:8554/cam1
+    transport: tcp
+    sim_source: data/clips/synthetic_cam1.mp4
+
+  - id: cam2
+    name: East scaffold (simulated)
+    url: rtsp://localhost:8554/cam2
+    transport: tcp
+    sim_source: data/clips/synthetic_cam2.mp4
+
+  - id: cam3
+    name: Excavation zone (simulated)
+    url: rtsp://localhost:8554/cam3
+    transport: tcp
+    sim_source: data/clips/synthetic_cam3.mp4

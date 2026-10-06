@@ -1,0 +1,23 @@
+# The camera service on an NVIDIA GPU (Linux, with the NVIDIA Container Toolkit installed):
+#
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d --build
+#
+# Builds the image with CUDA wheels of PyTorch and hands the GPU to the camera service; the
+# "auto" backend (configs/streams.yaml) then picks it. Written for the book's "GPU inference
+# worker" but NOT tested in this project (no NVIDIA GPU was available): check `docker compose logs
+# cameras` says "backend pytorch ... GPU".
+
+services:
+  cameras:
+    build:
+      context: .
+      args:
+        TORCH_INDEX: https://download.pytorch.org/whl/cu128
+    image: ppe-monitor:gpu
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

@@ -1,0 +1,18 @@
+# Phase 4: watching several cameras at once (scripts/run_cameras.py; scripts/benchmark.py measures
+# what this machine can do). Which cameras: configs/cameras.yaml. What counts as a violation:
+# configs/rules.yaml and configs/ppe.yaml.
+
+process_fps: 10        # frames analysed per second, per camera. The book suggests 5-10; Phase 2 found
+                       # that below 10, groups of people walking together swap IDs.
+backend: auto          # how the models run: auto | pytorch | pytorch-fp16 | coreml | coreml-int8 | onnx | onnx-int8
+                       # auto = coreml on a Mac once exported (scripts/export_models.py), else pytorch
+                       # on the GPU, else onnx on the CPU. See docs/phase4_results.md for the measurements.
+imgsz: 640             # the models' input size, as trained
+
+reconnect:
+  first_wait: 0.5      # seconds before the first retry after a camera drops out; it doubles each time ...
+  longest_wait: 10     # ... up to this: a camera back after a long outage is picked up within ~10 s
+  read_timeout: 5      # seconds without a frame before a camera counts as gone
+
+display_fps: 4         # run_cameras.py --show: how often the mosaic window is redrawn (drawing is kept
+                       # out of the analysis, which it would otherwise slow down)

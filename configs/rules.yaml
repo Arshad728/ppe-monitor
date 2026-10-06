@@ -1,0 +1,61 @@
+# The rules engine (Phase 3): what raises an event, on which cameras, where, when and how urgently.
+# Each rule is data: adding or changing one needs no code. How rules are evaluated:
+# src/ppe_monitor/rules/engine.py. Check this file with: python scripts/check_rules.py
+#
+#   id        short unique name; every event it raises carries it
+#   type      no_helmet | no_vest | zone_intrusion
+#   cameras   "all", or a list of camera ids from configs/cameras.yaml
+#   zone      a zone of those cameras (configs/zones.yaml, drawn with scripts/draw_zones.py).
+#             Required for zone_intrusion. On a PPE rule it means "only inside this zone".
+#   severity  low | medium | high | critical
+#   dwell     seconds the condition must last before it is an event (default: configs/ppe.yaml events.dwell)
+#   cooldown  seconds before the same person can raise this rule again (default: events.cooldown)
+#   active    optional: when the rule is on. {hours: "07:00-19:00", days: mon-sat}; days are optional,
+#             several ranges are allowed ("06:00-12:00, 13:00-18:00"), and "22:00-06:00" runs past midnight.
+#   enabled   false keeps a rule in the file but switches it off
+#
+# Times are this machine's local time, unless you set a time zone here:
+# timezone: Asia/Kolkata
+
+rules:
+  - id: no_helmet
+    type: no_helmet
+    cameras: all
+    severity: high
+    description: Helmet required everywhere on site
+
+  # Switched off 25 Sep 2026: hi-vis is not required at this site (the user's decision after the
+  # first workshop clips, docs/real_clips.md). Set enabled: true, or delete the line, where it is.
+  - id: no_vest
+    type: no_vest
+    cameras: all
+    severity: medium
+    enabled: false
+    description: Hi-vis vest required everywhere on site
+
+  # The simulated cameras (Phase 0 clips) all show the same hatched area, bottom left.
+  - id: gate-keep-out
+    type: zone_intrusion
+    cameras: [cam1]
+    zone: keep-out
+    severity: high
+    dwell: 2.0
+    description: Nobody inside the hatched area at the main gate, at any time
+
+  - id: bay-closed-at-night
+    type: zone_intrusion
+    cameras: [cam2]
+    zone: bay
+    severity: medium
+    dwell: 2.0
+    active: {hours: "19:00-07:00"}
+    description: Loading bay is closed overnight
+
+  - id: pit-working-hours
+    type: zone_intrusion
+    cameras: [cam3]
+    zone: pit
+    severity: critical
+    dwell: 2.0
+    active: {hours: "07:00-19:00", days: mon-sat}
+    description: Nobody at the excavation edge while the excavator works

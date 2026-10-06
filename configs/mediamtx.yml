@@ -1,0 +1,33 @@
+# MediaMTX configuration for the Phase 0 fake camera network.
+# Written for MediaMTX v1.21.0 (the version scripts/get_mediamtx.py downloads).
+# MediaMTX rejects unknown keys, so a much older or newer version may need edits here.
+#
+# Only the RTSP server is needed. The other servers are switched off so they don't
+# take ports you may want for something else.
+
+logLevel: info
+
+rtsp: true
+# Listen on this machine only: the fake cameras have no password, so they should not be
+# reachable from the rest of your network (this also avoids the macOS firewall prompt).
+# docker-compose.yml overrides these with environment variables so Docker can map the ports.
+rtspAddress: 127.0.0.1:8554
+# tcp: reliable delivery (our default). udp: lets you try Chapter 11's TCP-vs-UDP comparison.
+rtspTransports: [tcp, udp]
+rtpAddress: 127.0.0.1:8000
+rtcpAddress: 127.0.0.1:8001
+
+rtmp: false
+hls: false
+webrtc: false
+srt: false
+moq: false
+api: false
+metrics: false
+pprof: false
+playback: false
+
+# Accept any path: whatever ffmpeg publishes to rtsp://localhost:8554/<name> becomes readable
+# at the same address. No passwords - this server is for local development only.
+paths:
+  all_others:

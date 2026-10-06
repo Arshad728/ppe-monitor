@@ -1,0 +1,12 @@
+# Only the code and default settings go into the image; data, models and results are mounted.
+*
+!Dockerfile
+!pyproject.toml
+!requirements*.txt
+!src/
+!scripts/
+!configs/
+configs/secrets.env
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/

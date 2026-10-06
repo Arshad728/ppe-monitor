@@ -1,0 +1,152 @@
+# The whole PPE monitor in Docker (Phase 6, book Chapter 23):
+#
+#   docker compose up -d --build      # first time ~5-10 min (downloads and builds); later a few seconds
+#   docker compose logs secrets       # the dashboard's user name and password
+#   open http://127.0.0.1:8080        # the dashboard
+#   docker compose ps                 # every service "healthy"?
+#   docker compose down               # stop (the database and evidence images are kept)
+#
+# Services:
+#   secrets        once, at first start: makes the database and dashboard passwords (volume ppe-secrets)
+#   db             PostgreSQL 16; its files in the volume ppe-pgdata. Not reachable from outside Docker.
+#   db-init        once: creates the tables
+#   cameras        the camera service: every camera in configs/cameras.yaml -> detector, rules, events
+#   alerts         the alert worker: Telegram / email, retries, rate limit, camera-down alerts
+#   dashboard      http://127.0.0.1:8080, with a password (HTTP basic authentication)
+#   demo-rtsp      an RTSP server (MediaMTX), and demo-cameras: the simulated cameras of
+#   demo-cameras   configs/cameras.yaml streamed into it. With real cameras (no sim_source left in
+#                  cameras.yaml) demo-cameras just idles.
+#
+# Settings: configs/ (mounted read-only). Secrets: configs/secrets.env, if it exists (Telegram token
+# and chat, DASHBOARD_PASSWORD, TZ=Asia/Kolkata for local times in alerts, ...); passwords not given
+# there are made at random by `secrets`. Data: models/ (the detector), data/ (evidence images and
+# clips) and runs/ (live camera pictures) are the project's own folders, shared with the Mac setup.
+#
+# CPU only by default. On Linux with an NVIDIA GPU: docker compose -f docker-compose.yml -f docker-compose.gpu.yml up
+# On a Mac, Docker can't use the Apple GPU or Core ML: the native setup (scripts/mac_phase5.sh run) is
+# about 3x faster there.
+
+x-app: &app
+  image: ppe-monitor:latest
+  build: .
+  env_file:
+    - path: configs/secrets.env
+      required: false
+  environment: &app-env
+    PPE_DB_HOST: db
+    PPE_DB_PORT: "5432"
+    PPE_DB_PASSWORD_FILE: /run/ppe-secrets/db_password
+    DASHBOARD_PASSWORD_FILE: /run/ppe-secrets/dashboard_password
+    TZ: ${TZ:-UTC}
+  volumes: &app-volumes
+    - ./configs:/app/configs:ro
+    - ./models:/app/models
+    - ./data:/app/data
+    - ./runs:/app/runs
+    - ppe-secrets:/run/ppe-secrets:ro
+  restart: unless-stopped
+  logging: &logging
+    driver: json-file
+    options: {max-size: "10m", max-file: "3"}
+
+services:
+  secrets:
+    <<: *app
+    command: ["python", "scripts/docker_helper.py", "secrets"]
+    volumes:
+      - ppe-secrets:/run/ppe-secrets
+    restart: "no"
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ppe
+      POSTGRES_DB: ppe
+      POSTGRES_PASSWORD_FILE: /run/ppe-secrets/db_password
+      TZ: UTC
+    volumes:
+      - ppe-pgdata:/var/lib/postgresql/data
+      - ppe-secrets:/run/ppe-secrets:ro
+    depends_on:
+      secrets: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ppe -d ppe"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+    logging: *logging
+
+  db-init:
+    <<: *app
+    command: ["python", "scripts/db.py", "init"]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: "no"
+
+  cameras:
+    <<: *app
+    command: ["python", "scripts/run_cameras.py", "--db", "--live"]
+    # shares the RTSP server's network, so the simulated cameras' rtsp://localhost:8554/... addresses in
+    # configs/cameras.yaml work unchanged; real cameras on the network are reached as usual
+    network_mode: "service:demo-rtsp"
+    depends_on:
+      db-init: {condition: service_completed_successfully}
+      demo-rtsp: {condition: service_started}
+    healthcheck:
+      test: ["CMD", "python", "scripts/docker_helper.py", "health", "camera_service"]
+      interval: 15s
+      timeout: 10s
+      start_period: 120s
+      retries: 3
+
+  alerts:
+    <<: *app
+    command: ["python", "scripts/alert_worker.py"]
+    depends_on:
+      db-init: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "python", "scripts/docker_helper.py", "health", "alert_worker"]
+      interval: 15s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+
+  dashboard:
+    <<: *app
+    command: ["python", "scripts/serve_dashboard.py"]
+    environment:
+      <<: *app-env
+      DASHBOARD_HOST: 0.0.0.0             # inside the container; published on this machine only (below)
+    ports:
+      - "127.0.0.1:8080:8080"             # to open it from a phone: "8080:8080", and a strong password
+    depends_on:
+      db-init: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "python", "scripts/docker_helper.py", "health", "dashboard"]
+      interval: 15s
+      timeout: 10s
+      start_period: 20s
+      retries: 3
+
+  demo-rtsp:
+    image: bluenviron/mediamtx:1.21.0
+    volumes:
+      - ./configs/mediamtx.yml:/mediamtx.yml:ro
+    environment:
+      MTX_RTSPADDRESS: ":8554"
+      MTX_RTPADDRESS: ":8000"
+      MTX_RTCPADDRESS: ":8001"
+    restart: unless-stopped
+    logging: *logging
+
+  demo-cameras:
+    <<: *app
+    command: ["python", "scripts/docker_helper.py", "demo-cameras"]
+    network_mode: "service:demo-rtsp"
+    depends_on:
+      demo-rtsp: {condition: service_started}
+
+volumes:
+  ppe-pgdata:
+  ppe-secrets:

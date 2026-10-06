@@ -1,0 +1,15 @@
+# Phase 4: exporting the models to Core ML and ONNX (scripts/export_models.py) and running them
+# (scripts/benchmark.py, scripts/run_cameras.py --backend ...).
+#   pip install -r requirements-export.txt
+#
+# numpy stays at 2.3.5 (requirements.txt): the Core ML converter doesn't accept anything newer.
+# TensorRT (the book's choice on NVIDIA) doesn't exist on a Mac: see docs/decisions/0006.
+-r requirements.txt
+-r requirements-ml.txt
+# Core ML: converting works on any computer, running only on macOS (on the Neural Engine).
+coremltools==9.0
+# ONNX: the portable format; ONNX Runtime runs it on the CPU (the same file runs on a Linux server).
+onnx==1.23.0
+onnxruntime==1.30.0
+# Ultralytics simplifies the exported ONNX graph with this.
+onnxslim==0.1.96

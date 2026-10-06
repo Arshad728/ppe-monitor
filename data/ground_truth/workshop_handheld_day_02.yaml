@@ -1,0 +1,14 @@
+# Ground truth for data/clips/workshop_handheld_day_02.mp4 (Phase 6, book Chapter 23).
+# Format: src/ppe_monitor/evaluation/truth.py.
+clip: workshop_handheld_day_02.mp4
+fps: 15.0
+duration: 12.533
+private: true            # real workers: its pictures never go to Telegram during an evaluation
+checked: [no_helmet]     # hi-vis isn't worn or required at this site; no restricted zone here
+source: hand-annotated, 26 Sep 2026, from every frame of each person near enough to judge (head crops,
+  docs/real_clips.md) and contact sheets at 1 s steps
+notes: >-
+  No violations: everyone near enough to judge wears a helmet (yellow, navy, white or brown), so any
+  no-helmet alert here is a false alarm. At about 4 s the top of a bare head passes along the bottom
+  edge, too close to the phone to be a whole person. People further back weren't checked.
+episodes: []

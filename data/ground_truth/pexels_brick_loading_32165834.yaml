@@ -1,0 +1,80 @@
+# Ground truth for data/clips/pexels_brick_loading_32165834.mp4 (Phase 6, book Chapter 23).
+# Source: https://www.pexels.com/video/hardworking-indian-laborers-loading-bricks-onto-truck-32165834/
+# Pexels licence (free to use and modify, no attribution required: https://www.pexels.com/license/). Converted to 1280x720, 15 frames/s, no sound (like a CCTV stream).
+# Format: src/ppe_monitor/evaluation/truth.py.
+clip: pexels_brick_loading_32165834.mp4
+fps: 15.0
+duration: 24.6
+private: false
+checked: [no_helmet]
+complete: true
+source: 'hand-annotated, 28 Sep 2026: every person near enough to judge checked by eye (head crops from
+  the original 1080p/1440p file and frame sheets); boxes follow the tracker''s box for that person'
+notes: Two men load bricks onto a truck, neither wearing a helmet, both in view for the whole clip. Their
+  heads sometimes rise above the top of the frame. The camera settles in the first second. The boxes sometimes
+  found on the tractor at the left are not people.
+episodes:
+- kind: no_helmet
+  start: 0.0
+  end: 24.6
+  sustained: true
+  boxes:
+    0.0: [0.0564, 0.3675, 0.283, 0.9851]
+    1.0: [0.2404, 0.2685, 0.4099, 0.9267]
+    2.0: [0.3228, 0.2292, 0.4581, 0.8085]
+    3.0: [0.3115, 0.4111, 0.4203, 0.7566]
+    4.0: [0.3199, 0.2908, 0.4465, 0.6776]
+    5.0: [0.3318, 0.0337, 0.4677, 0.6129]
+    6.0: [0.3943, 0.002, 0.5229, 0.5764]
+    7.0: [0.3255, 0.0025, 0.4637, 0.6176]
+    8.0: [0.2118, 0.0245, 0.3888, 0.825]
+    9.0: [0.0793, 0.2576, 0.3366, 0.856]
+    10.0: [0.1206, 0.1972, 0.3267, 0.8455]
+    11.0: [0.2247, 0.0392, 0.4071, 0.7506]
+    12.0: [0.3285, 0.0059, 0.4869, 0.6218]
+    13.0: [0.3217, 0.1244, 0.4599, 0.6091]
+    14.0: [0.3295, 0.2724, 0.4327, 0.6071]
+    15.0: [0.2895, 0.2884, 0.4277, 0.6084]
+    16.0: [0.3471, 0.0966, 0.4419, 0.6103]
+    17.0: [0.3381, 0.0104, 0.4694, 0.6023]
+    18.0: [0.2958, 0.0035, 0.4808, 0.6158]
+    19.0: [0.2514, 0.0019, 0.3927, 0.7079]
+    20.0: [0.1745, 0.1844, 0.3921, 0.7223]
+    21.0: [0.1693, 0.1729, 0.3817, 0.7089]
+    22.0: [0.1523, 0.0, 0.3727, 0.6544]
+    23.0: [0.2459, 0.0309, 0.3954, 0.6876]
+    24.0: [0.3204, 0.0, 0.412, 0.6094]
+    24.533: [0.3471, 0.0275, 0.439, 0.5604]
+  note: man in an orange shirt, no helmet
+- kind: no_helmet
+  start: 0.0
+  end: 24.6
+  sustained: true
+  boxes:
+    0.0: [0.6501, 0.3465, 0.7966, 0.8143]
+    1.0: [0.6029, 0.1242, 0.7663, 0.8278]
+    2.0: [0.5805, 0.0769, 0.7884, 0.9377]
+    3.0: [0.5553, 0.3438, 0.7109, 0.9359]
+    4.0: [0.5683, 0.3243, 0.7118, 0.8389]
+    5.0: [0.5603, 0.2648, 0.7323, 0.7619]
+    6.0: [0.5423, 0.0, 0.7579, 0.7123]
+    7.0: [0.5618, 0.0, 0.7055, 0.7529]
+    8.0: [0.6198, 0.0097, 0.7754, 0.6734]
+    9.0: [0.6889, 0.026, 0.8395, 0.6956]
+    10.0: [0.652, 0.2731, 0.8556, 0.6714]
+    11.0: [0.678, 0.1126, 0.8337, 0.6479]
+    12.0: [0.6249, 0.004, 0.7778, 0.646]
+    13.0: [0.5303, 0.0035, 0.6869, 0.6388]
+    14.0: [0.4668, 0.1999, 0.6079, 0.7481]
+    15.0: [0.4212, 0.0001, 0.6141, 0.7321]
+    16.0: [0.4217, 0.0092, 0.5657, 0.7438]
+    17.0: [0.5561, 0.0041, 0.723, 0.6259]
+    18.0: [0.5665, 0.1911, 0.6804, 0.6155]
+    19.0: [0.5602, 0.2189, 0.6748, 0.5944]
+    20.0: [0.5417, 0.0071, 0.6506, 0.5789]
+    21.0: [0.4941, 0.002, 0.6763, 0.5568]
+    22.0: [0.4043, 0.0019, 0.5753, 0.649]
+    23.0: [0.38, 0.1482, 0.5342, 0.689]
+    24.0: [0.3774, 0.0029, 0.5583, 0.7153]
+    24.533: [0.3449, 0.0, 0.5765, 0.6906]
+  note: man in a khaki shirt, no helmet

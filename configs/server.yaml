@@ -1,0 +1,63 @@
+# Phase 5: where events are stored, how alerts are sent, and the dashboard.
+# Used by scripts/run_cameras.py --db, scripts/alert_worker.py and scripts/serve_dashboard.py.
+# Passwords and tokens never go in this file: they live in configs/secrets.env (not in git),
+# made from configs/secrets.env.example. Environment variables of the same name win over both.
+
+database:
+  # PostgreSQL on this machine, started by scripts/db.py (port 5433, so it can't clash with another
+  # PostgreSQL on the usual 5432). The password comes from PPE_DB_PASSWORD in configs/secrets.env.
+  # DATABASE_URL (environment or secrets.env) replaces the whole address, e.g.
+  #   sqlite:///data/ppe.sqlite     (no server needed; fine for one machine and testing)
+  host: 127.0.0.1
+  port: 5433
+  name: ppe
+  user: ppe
+
+storage:
+  dir: data/events            # evidence images: <day>/<event id>.jpg (annotated) and _frame.jpg (clean)
+  save_frame: true            # keep the clean frame too, to label false alarms for retraining (Phase 6)
+  keep_days: 30               # images older than this are deleted (the event row stays).
+                              # Images of events marked "false alarm" are kept for retraining.
+
+live:
+  dir: runs/live_tiles        # the newest annotated frame of each camera, for the dashboard's tiles
+  every: 1.0                  # seconds between tiles, per camera
+  width: 640
+
+alerts:
+  poll: 0.5                   # seconds between looks at the queue
+  retry:
+    attempts: 6               # then the alert is marked failed (it stays on the dashboard)
+    first_wait: 2             # seconds before the first retry; doubles each time ...
+    longest_wait: 120         # ... up to this
+  # At most `max_alerts` alerts per camera and channel in any `minutes` window. Past that, alerts
+  # are held, and go out together as one summary once the camera is back under its limit, so a
+  # busy camera can't flood a phone and nothing is lost.
+  rate_limit:
+    max_alerts: 5
+    minutes: 10
+  # Phase 6: the system watches itself. A camera that stays down this long, or a camera service that
+  # stops reporting this long, raises an alert on the channels that take "high" alerts (one per
+  # outage, and one when it's back). A deliberate stop raises nothing. 0 = off.
+  health:
+    camera_down_after: 60     # seconds
+    service_silent_after: 60  # seconds
+  channels:
+    telegram:
+      enabled: true
+      min_severity: medium    # low | medium | high | critical: quieter events stay on the dashboard
+      photo: true             # false: text only. The evidence image shows workers; with true it is
+                              # stored on Telegram's servers too. Check your site's privacy rules.
+      ip: ipv4                # ipv4, or any (let the system choose). IPv4 avoids a long wait on networks
+                              # that announce IPv6 but don't carry it (bash scripts/mac_phase5.sh telegram --speed)
+    email:
+      enabled: false
+      min_severity: high
+      photo: true
+  # Put in each message as a link to the event, when the dashboard can be reached from the phone:
+  # dashboard_url: http://192.168.1.20:8080
+
+dashboard:
+  host: 127.0.0.1             # this Mac only. To open it from a phone on the same Wi-Fi, use 0.0.0.0
+                              # and set DASHBOARD_PASSWORD in configs/secrets.env (required then).
+  port: 8080

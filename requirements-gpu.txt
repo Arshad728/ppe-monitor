@@ -1,0 +1,8 @@
+# PyTorch: used now by scripts/check_gpu.py and from Phase 1 for training and detection.
+# On Apple Silicon it runs on the Mac's GPU through MPS (Metal Performance Shaders).
+#
+# One range instead of one exact version, because the newest PyTorch a Mac can install
+# depends on its macOS version: PyTorch 2.12+ needs macOS 14 (Sonoma) or newer, so pip picks
+#   macOS 14 or newer -> torch 2.14.0      macOS 11-13 -> torch 2.11.0
+# The version actually installed is recorded in docs/ENVIRONMENT.md by check_env.py.
+torch>=2.11,<2.15

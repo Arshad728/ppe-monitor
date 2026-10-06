@@ -1,0 +1,80 @@
+# Detection class scheme - decided in Phase 0, used from Phase 1 onward.
+# Why three plain classes instead of "no-helmet" style classes: docs/decisions/0001-class-scheme.md
+#
+# The model finds people, helmets and vests. Whether a person is WEARING their helmet and
+# vest is decided afterwards by geometry (Chapter 10), not by the model.
+
+classes:        # order = class id used in label files (0, 1, 2)
+  - person
+  - helmet
+  - vest
+
+# Public PPE datasets name the same things differently. When datasets are merged in
+# Phase 1, any label whose name appears here is renamed to the class on the left.
+# Matching ignores case, spaces, '-' and '_'
+# (so "hard hat", "Hard-Hat" and "hardhat" are all covered by "hardhat").
+aliases:
+  person: [person, people, worker, human]
+  helmet: [helmet, hardhat, safety helmet, hat,
+           # CHV and GDUT-HWD label each helmet by its colour (the readers name them "<colour> helmet")
+           blue helmet, red helmet, white helmet, yellow helmet]
+  vest:   [vest, safety vest, reflective vest, hi-vis, high visibility vest, jacket]
+
+# Labels to drop when merging (they either describe an absence, which our geometry
+# handles, or are objects this project doesn't monitor). A label that is in neither
+# `aliases` nor `ignore` stops the build, so every label is a deliberate decision.
+ignore:
+  # absences - decided by geometry in rules/, not learned
+  - no-hardhat
+  - no helmet
+  - no-safety vest
+  - no vest
+  - no-mask
+  - no goggle
+  - no goggles
+  - no gloves
+  - no boots
+  # Construction-PPE's "none" marks a torso with no vest. Checked on 2026-09-22: 91% of these
+  # boxes sit inside a Person box, and the person keeps their own Person label.
+  - none
+  # PPE this version doesn't monitor
+  - mask
+  - gloves
+  - goggles
+  - boots
+  # other objects, and dataset bookkeeping labels
+  - safety cone
+  - machinery
+  - vehicle
+  - construction-safety   # Roboflow-100's parent category; no boxes use it
+  # SH17 (added for the fine-tuned model, datasets/ppe4): body parts and other equipment.
+  # "head" marks every head, helmet or not, so it is NOT an absence label.
+  # "safety-suit" covers diving suits and chemical suits as well as coveralls: not a hi-vis vest.
+  - head
+  - face
+  - ear
+  - ear-mufs
+  - face-guard
+  - face-mask
+  - hands
+  - glasses
+  - foot
+  - shoes
+  - tool
+  - medical-suit
+  - safety-suit
+  # GDUT-HWD's "none" (a head with no helmet), renamed by the reader so it can't be confused
+  # with Construction-PPE's "none" (a torso with no vest)
+  - bare head
+
+# Labels that mark a MISSING item: a bare head, or a torso with no hi-vis vest. The detector never
+# learns them (they are in `ignore` above), but Phase 2 uses them as ground truth: a labelled person
+# with a bare-head label is known NOT to wear a helmet. That is how the PPE rules are checked
+# against people whose status is known (scripts/check_ppe_rules.py).
+absent:
+  helmet: [no-hardhat, no helmet, bare head]
+  vest:   [no-safety vest, no vest, none]
+
+# Note on "hat" and "jacket": some datasets use these for helmet/vest, others for ordinary
+# caps and coats. Phase 1 prints every alias match per dataset so you can confirm before
+# training - delete an alias here if a dataset uses it for the everyday item.

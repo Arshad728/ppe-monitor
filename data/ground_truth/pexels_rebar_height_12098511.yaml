@@ -1,0 +1,14 @@
+# Ground truth for data/clips/pexels_rebar_height_12098511.mp4 (Phase 6, book Chapter 23).
+# Source: https://www.pexels.com/video/workers-on-construction-12098511/
+# Pexels licence (free to use and modify, no attribution required: https://www.pexels.com/license/). Converted to 1280x720, 15 frames/s, no sound (like a CCTV stream).
+# Format: src/ppe_monitor/evaluation/truth.py.
+clip: pexels_rebar_height_12098511.mp4
+fps: 15.0
+duration: 14.733
+private: false
+checked: [no_helmet]
+complete: true
+source: 'hand-annotated, 28 Sep 2026: every person near enough to judge checked by eye (head crops from
+  the original 1080p/1440p file and frame sheets); boxes follow the tracker''s box for that person'
+notes: Six workers on rebar at height, all in yellow helmets for the whole clip.
+episodes: []

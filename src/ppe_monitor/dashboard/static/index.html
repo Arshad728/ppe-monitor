@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PPE monitor</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 20a12 12 0 0 1 24 0v3H4z' fill='%23eda100'/%3E%3Crect x='2' y='22' width='28' height='4' rx='2' fill='%23c98500'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 20a12 12 0 0 1 24 0v3H4z" fill="currentColor"/><rect x="2" y="22" width="28" height="4" rx="2" fill="currentColor"/></svg>
+    <h1>PPE monitor</h1>
+  </div>
+  <ul class="services" id="services" aria-label="System status"></ul>
+</header>
+
+<main>
+  <form class="filters" id="filters" aria-label="Filters" onsubmit="return false">
+    <div class="seg" role="radiogroup" aria-label="Time range" id="range">
+      <button type="button" data-hours="1">Last hour</button>
+      <button type="button" data-hours="24" class="on">24 hours</button>
+      <button type="button" data-hours="168">7 days</button>
+      <button type="button" data-hours="720">30 days</button>
+    </div>
+    <label>Camera <select id="f-camera"><option value="">All</option></select></label>
+    <label>Type <select id="f-kind">
+      <option value="">All</option>
+      <option value="no_helmet">No helmet</option>
+      <option value="no_vest">No hi-vis vest</option>
+      <option value="zone_intrusion">Restricted zone</option>
+    </select></label>
+    <label>Verdict <select id="f-status">
+      <option value="">All</option>
+      <option value="new">Not reviewed</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="false_alarm">False alarm</option>
+    </select></label>
+  </form>
+
+  <section class="tiles" id="stats" aria-label="Summary"></section>
+
+  <div class="grid2">
+    <section class="card" aria-labelledby="cams-h">
+      <div class="card-h"><h2 id="cams-h">Cameras</h2><span class="muted" id="cams-note"></span></div>
+      <div class="cams" id="cams"></div>
+    </section>
+    <section class="card" aria-labelledby="chart-h">
+      <div class="card-h"><h2 id="chart-h">Events over time</h2><span class="muted" id="chart-note"></span></div>
+      <div class="chart" id="chart-time"></div>
+      <h3 class="sub">By camera</h3>
+      <div class="hbars" id="chart-cam"></div>
+    </section>
+  </div>
+
+  <section class="card" aria-labelledby="ev-h">
+    <div class="card-h"><h2 id="ev-h">Events</h2><span class="muted" id="ev-note"></span></div>
+    <div class="table-wrap">
+      <table class="events">
+        <thead><tr><th>Time</th><th>Camera</th><th>What</th><th>Severity</th><th>Alert</th><th>Verdict</th></tr></thead>
+        <tbody id="events"></tbody>
+      </table>
+    </div>
+    <div class="pager"><button type="button" id="more" hidden>Show older events</button></div>
+  </section>
+</main>
+
+<div class="tooltip" id="tip" role="tooltip" hidden></div>
+
+<aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="d-title">
+  <div class="drawer-in">
+    <div class="d-head">
+      <h2 id="d-title">Event</h2>
+      <button type="button" class="icon" id="d-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="d-img">
+      <img id="d-img" alt="Evidence image of the event">
+      <div class="d-imgtabs seg" role="radiogroup" aria-label="Image">
+        <button type="button" class="on" data-img="snapshot">Evidence</button>
+        <button type="button" data-img="frame">Clean frame</button>
+      </div>
+    </div>
+    <dl class="d-facts" id="d-facts"></dl>
+    <div class="d-verdict">
+      <p class="muted">Was this a real violation?</p>
+      <div class="d-buttons">
+        <button type="button" class="btn ok" data-status="confirmed">Confirm violation</button>
+        <button type="button" class="btn bad" data-status="false_alarm">False alarm</button>
+        <button type="button" class="btn ghost" data-status="new">Undo</button>
+      </div>
+      <label class="note">Note <textarea id="d-note" rows="2" maxlength="2000" placeholder="Optional: what happened, what was done"></textarea></label>
+      <p class="muted small">False alarms are kept, with their clean frames, to retrain the model.</p>
+    </div>
+    <h3 class="sub">Alerts</h3>
+    <ul class="d-alerts" id="d-alerts"></ul>
+  </div>
+</aside>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

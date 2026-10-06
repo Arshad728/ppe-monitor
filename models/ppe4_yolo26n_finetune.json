@@ -1,0 +1,534 @@
+{
+  "val": {
+    "split": "val",
+    "images": 454,
+    "threshold": 0.333,
+    "map50": 0.8574469762083922,
+    "classes": [
+      {
+        "name": "person",
+        "objects": 1312,
+        "ap50": 0.8907443179532928,
+        "precision": 0.8792692613185068,
+        "recall": 0.84375,
+        "recall_by_size": {
+          "small": [
+            57,
+            0.2807017543859649
+          ],
+          "medium": [
+            282,
+            0.6737588652482269
+          ],
+          "large": [
+            973,
+            0.9260020554984584
+          ]
+        }
+      },
+      {
+        "name": "helmet",
+        "objects": 885,
+        "ap50": 0.8779597908115985,
+        "precision": 0.8864994026284349,
+        "recall": 0.8384180790960452,
+        "recall_by_size": {
+          "small": [
+            221,
+            0.6380090497737556
+          ],
+          "medium": [
+            486,
+            0.8868312757201646
+          ],
+          "large": [
+            178,
+            0.9550561797752809
+          ]
+        }
+      },
+      {
+        "name": "vest",
+        "objects": 359,
+        "ap50": 0.803636819860285,
+        "precision": 0.9172661870503597,
+        "recall": 0.7103064066852368,
+        "recall_by_size": {
+          "small": [
+            27,
+            0.0
+          ],
+          "medium": [
+            106,
+            0.5471698113207547
+          ],
+          "large": [
+            226,
+            0.8716814159292036
+          ]
+        }
+      }
+    ],
+    "map50_ultralytics": 0.8658005792052749,
+    "map50_95_ultralytics": 0.538747549976812
+  },
+  "test": {
+    "split": "test",
+    "images": 628,
+    "threshold": 0.333,
+    "map50": 0.88487858452762,
+    "classes": [
+      {
+        "name": "person",
+        "objects": 2587,
+        "ap50": 0.8978227203757745,
+        "precision": 0.8698602794411178,
+        "recall": 0.8422883649014302,
+        "recall_by_size": {
+          "small": [
+            123,
+            0.3170731707317073
+          ],
+          "medium": [
+            645,
+            0.737984496124031
+          ],
+          "large": [
+            1819,
+            0.9147883452446399
+          ]
+        }
+      },
+      {
+        "name": "helmet",
+        "objects": 1714,
+        "ap50": 0.9208931711294862,
+        "precision": 0.8847980997624703,
+        "recall": 0.8693115519253208,
+        "recall_by_size": {
+          "small": [
+            448,
+            0.7299107142857143
+          ],
+          "medium": [
+            1028,
+            0.9231517509727627
+          ],
+          "large": [
+            238,
+            0.8991596638655462
+          ]
+        }
+      },
+      {
+        "name": "vest",
+        "objects": 311,
+        "ap50": 0.8359198620775989,
+        "precision": 0.851063829787234,
+        "recall": 0.7717041800643086,
+        "recall_by_size": {
+          "small": [
+            14,
+            0.07142857142857142
+          ],
+          "medium": [
+            67,
+            0.6865671641791045
+          ],
+          "large": [
+            230,
+            0.8391304347826087
+          ]
+        }
+      }
+    ],
+    "map50_ultralytics": 0.8840021018846199,
+    "map50_95_ultralytics": 0.5705575303391764
+  },
+  "test_by_source": {
+    "test_chv": {
+      "split": "test_chv",
+      "images": 7,
+      "threshold": 0.333,
+      "map50": 0.8618792318792319,
+      "classes": [
+        {
+          "name": "person",
+          "objects": 14,
+          "ap50": 0.9480186480186481,
+          "precision": 0.8666666666666667,
+          "recall": 0.9285714285714286,
+          "recall_by_size": {
+            "small": [
+              0,
+              NaN
+            ],
+            "medium": [
+              3,
+              1.0
+            ],
+            "large": [
+              11,
+              0.9090909090909091
+            ]
+          }
+        },
+        {
+          "name": "helmet",
+          "objects": 10,
+          "ap50": 0.9042857142857142,
+          "precision": 0.9,
+          "recall": 0.9,
+          "recall_by_size": {
+            "small": [
+              2,
+              1.0
+            ],
+            "medium": [
+              5,
+              1.0
+            ],
+            "large": [
+              3,
+              0.6666666666666666
+            ]
+          }
+        },
+        {
+          "name": "vest",
+          "objects": 5,
+          "ap50": 0.7333333333333334,
+          "precision": 0.75,
+          "recall": 0.6,
+          "recall_by_size": {
+            "small": [
+              0,
+              NaN
+            ],
+            "medium": [
+              1,
+              1.0
+            ],
+            "large": [
+              4,
+              0.5
+            ]
+          }
+        }
+      ],
+      "map50_ultralytics": null,
+      "map50_95_ultralytics": null
+    },
+    "test_extra": {
+      "split": "test_extra",
+      "images": 428,
+      "threshold": 0.333,
+      "map50": 0.7990786297466514,
+      "classes": [
+        {
+          "name": "person",
+          "objects": 2178,
+          "ap50": 0.9067654049892568,
+          "precision": 0.8842615012106537,
+          "recall": 0.8383838383838383,
+          "recall_by_size": {
+            "small": [
+              120,
+              0.325
+            ],
+            "medium": [
+              627,
+              0.7432216905901117
+            ],
+            "large": [
+              1431,
+              0.923130677847659
+            ]
+          }
+        },
+        {
+          "name": "helmet",
+          "objects": 1364,
+          "ap50": 0.917604454802244,
+          "precision": 0.8832831325301205,
+          "recall": 0.8599706744868035,
+          "recall_by_size": {
+            "small": [
+              424,
+              0.7334905660377359
+            ],
+            "medium": [
+              779,
+              0.9281129653401797
+            ],
+            "large": [
+              161,
+              0.8633540372670807
+            ]
+          }
+        },
+        {
+          "name": "vest",
+          "objects": 41,
+          "ap50": 0.5728660294484537,
+          "precision": 0.6774193548387096,
+          "recall": 0.5121951219512195,
+          "recall_by_size": {
+            "small": [
+              14,
+              0.07142857142857142
+            ],
+            "medium": [
+              14,
+              0.7857142857142857
+            ],
+            "large": [
+              13,
+              0.6923076923076923
+            ]
+          }
+        }
+      ],
+      "map50_ultralytics": null,
+      "map50_95_ultralytics": null
+    },
+    "test_gdut-hwd": {
+      "split": "test_gdut-hwd",
+      "images": 320,
+      "threshold": 0.333,
+      "map50": 0.9154958475225479,
+      "classes": [
+        {
+          "name": "person",
+          "objects": 1976,
+          "ap50": 0.9093887718561301,
+          "precision": 0.884430176565008,
+          "recall": 0.8365384615384616,
+          "recall_by_size": {
+            "small": [
+              110,
+              0.34545454545454546
+            ],
+            "medium": [
+              592,
+              0.7398648648648649
+            ],
+            "large": [
+              1274,
+              0.923861852433281
+            ]
+          }
+        },
+        {
+          "name": "helmet",
+          "objects": 1302,
+          "ap50": 0.9216029231889655,
+          "precision": 0.8882725832012678,
+          "recall": 0.8609831029185868,
+          "recall_by_size": {
+            "small": [
+              408,
+              0.7352941176470589
+            ],
+            "medium": [
+              746,
+              0.9289544235924933
+            ],
+            "large": [
+              148,
+              0.8648648648648649
+            ]
+          }
+        },
+        {
+          "name": "vest",
+          "objects": 0,
+          "ap50": NaN,
+          "precision": 0.0,
+          "recall": 0.0,
+          "recall_by_size": {
+            "small": [
+              0,
+              NaN
+            ],
+            "medium": [
+              0,
+              NaN
+            ],
+            "large": [
+              0,
+              NaN
+            ]
+          }
+        }
+      ],
+      "map50_ultralytics": null,
+      "map50_95_ultralytics": null
+    },
+    "test_ppe3": {
+      "split": "test_ppe3",
+      "images": 200,
+      "threshold": 0.333,
+      "map50": 0.8834637630298209,
+      "classes": [
+        {
+          "name": "person",
+          "objects": 409,
+          "ap50": 0.8385626481447481,
+          "precision": 0.8022727272727272,
+          "recall": 0.863080684596577,
+          "recall_by_size": {
+            "small": [
+              3,
+              0.0
+            ],
+            "medium": [
+              18,
+              0.5555555555555556
+            ],
+            "large": [
+              388,
+              0.884020618556701
+            ]
+          }
+        },
+        {
+          "name": "helmet",
+          "objects": 350,
+          "ap50": 0.9340713298625878,
+          "precision": 0.8904494382022472,
+          "recall": 0.9057142857142857,
+          "recall_by_size": {
+            "small": [
+              24,
+              0.6666666666666666
+            ],
+            "medium": [
+              249,
+              0.9076305220883534
+            ],
+            "large": [
+              77,
+              0.974025974025974
+            ]
+          }
+        },
+        {
+          "name": "vest",
+          "objects": 270,
+          "ap50": 0.8777573110821264,
+          "precision": 0.8725099601593626,
+          "recall": 0.8111111111111111,
+          "recall_by_size": {
+            "small": [
+              0,
+              NaN
+            ],
+            "medium": [
+              53,
+              0.660377358490566
+            ],
+            "large": [
+              217,
+              0.847926267281106
+            ]
+          }
+        }
+      ],
+      "map50_ultralytics": null,
+      "map50_95_ultralytics": null
+    },
+    "test_sh17": {
+      "split": "test_sh17",
+      "images": 101,
+      "threshold": 0.333,
+      "map50": 0.7796435383708352,
+      "classes": [
+        {
+          "name": "person",
+          "objects": 188,
+          "ap50": 0.8744882317438838,
+          "precision": 0.8839779005524862,
+          "recall": 0.851063829787234,
+          "recall_by_size": {
+            "small": [
+              10,
+              0.1
+            ],
+            "medium": [
+              32,
+              0.78125
+            ],
+            "large": [
+              146,
+              0.9178082191780822
+            ]
+          }
+        },
+        {
+          "name": "helmet",
+          "objects": 52,
+          "ap50": 0.8427554662922992,
+          "precision": 0.7678571428571429,
+          "recall": 0.8269230769230769,
+          "recall_by_size": {
+            "small": [
+              14,
+              0.6428571428571429
+            ],
+            "medium": [
+              28,
+              0.8928571428571429
+            ],
+            "large": [
+              10,
+              0.9
+            ]
+          }
+        },
+        {
+          "name": "vest",
+          "objects": 36,
+          "ap50": 0.621686917076323,
+          "precision": 0.75,
+          "recall": 0.5,
+          "recall_by_size": {
+            "small": [
+              14,
+              0.07142857142857142
+            ],
+            "medium": [
+              13,
+              0.7692307692307693
+            ],
+            "large": [
+              9,
+              0.7777777777777778
+            ]
+          }
+        }
+      ],
+      "map50_ultralytics": null,
+      "map50_95_ultralytics": null
+    }
+  },
+  "overfitting": {
+    "epochs": 30,
+    "best_epoch": 24,
+    "val_loss_best": 2.23544,
+    "val_loss_last": 2.1871,
+    "train_loss_best": 1.8477100000000002,
+    "train_loss_last": 1.74942,
+    "train_map50_sample": 0.9420444053765374,
+    "val_map50": 0.8574469762083922,
+    "gap": 0.08459742916814528,
+    "kept_model_overfit": true,
+    "later_epochs_memorising": false
+  },
+  "epochs": 30,
+  "train_seconds": 11585.814474416984,
+  "device": "mps",
+  "run_dir": "/Users/arshadalam/Documents/ppe-monitor/runs/detect/finetune",
+  "start_from": "models/ppe3_yolo26n_baseline.pt",
+  "data": "datasets/ppe4/data.yaml"
+}

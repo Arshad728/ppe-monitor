@@ -1,0 +1,152 @@
+{
+  "val": {
+    "split": "val",
+    "images": 237,
+    "threshold": 0.35,
+    "map50": 0.89568740592391,
+    "classes": [
+      {
+        "name": "person",
+        "objects": 450,
+        "ap50": 0.9277846428489716,
+        "precision": 0.9026548672566371,
+        "recall": 0.9066666666666666,
+        "recall_by_size": {
+          "small": [
+            2,
+            0.0
+          ],
+          "medium": [
+            26,
+            0.5
+          ],
+          "large": [
+            422,
+            0.9360189573459715
+          ]
+        }
+      },
+      {
+        "name": "helmet",
+        "objects": 403,
+        "ap50": 0.8794076281046515,
+        "precision": 0.8962765957446809,
+        "recall": 0.8362282878411911,
+        "recall_by_size": {
+          "small": [
+            45,
+            0.6
+          ],
+          "medium": [
+            244,
+            0.8360655737704918
+          ],
+          "large": [
+            114,
+            0.9298245614035088
+          ]
+        }
+      },
+      {
+        "name": "vest",
+        "objects": 282,
+        "ap50": 0.879869946818107,
+        "precision": 0.8679245283018868,
+        "recall": 0.8156028368794326,
+        "recall_by_size": {
+          "small": [
+            1,
+            0.0
+          ],
+          "medium": [
+            77,
+            0.6883116883116883
+          ],
+          "large": [
+            204,
+            0.8676470588235294
+          ]
+        }
+      }
+    ],
+    "map50_ultralytics": 0.9014892748092448,
+    "map50_95_ultralytics": 0.5280916631370239
+  },
+  "test": {
+    "split": "test",
+    "images": 200,
+    "threshold": 0.35,
+    "map50": 0.869255924192911,
+    "classes": [
+      {
+        "name": "person",
+        "objects": 409,
+        "ap50": 0.83796118166775,
+        "precision": 0.8261904761904761,
+        "recall": 0.8484107579462102,
+        "recall_by_size": {
+          "small": [
+            3,
+            0.0
+          ],
+          "medium": [
+            18,
+            0.5555555555555556
+          ],
+          "large": [
+            388,
+            0.8685567010309279
+          ]
+        }
+      },
+      {
+        "name": "helmet",
+        "objects": 350,
+        "ap50": 0.9207370372914336,
+        "precision": 0.8797653958944281,
+        "recall": 0.8571428571428571,
+        "recall_by_size": {
+          "small": [
+            24,
+            0.4583333333333333
+          ],
+          "medium": [
+            249,
+            0.8634538152610441
+          ],
+          "large": [
+            77,
+            0.961038961038961
+          ]
+        }
+      },
+      {
+        "name": "vest",
+        "objects": 270,
+        "ap50": 0.8490695536195495,
+        "precision": 0.852,
+        "recall": 0.7888888888888889,
+        "recall_by_size": {
+          "small": [
+            0,
+            NaN
+          ],
+          "medium": [
+            53,
+            0.6981132075471698
+          ],
+          "large": [
+            217,
+            0.8110599078341014
+          ]
+        }
+      }
+    ],
+    "map50_ultralytics": 0.8723501581126412,
+    "map50_95_ultralytics": 0.5015771166408747
+  },
+  "epochs": 54,
+  "train_seconds": 14531.424160458002,
+  "device": "mps",
+  "run_dir": "/Users/arshadalam/Documents/ppe-monitor/runs/detect/baseline-2"
+}

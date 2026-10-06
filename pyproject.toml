@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ppe-monitor"
+version = "0.1.0"
+description = "Worker Safety (PPE) Monitoring System: real-time helmet, vest and restricted-zone monitoring on live CCTV streams."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+# Loose ranges here; exact, tested versions live in requirements.txt.
+dependencies = [
+    "numpy>=1.26,<3",
+    "opencv-python>=4.10,<5",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "scripts"]
+markers = [
+    "integration: starts a real RTSP server and ffmpeg publishers (skipped automatically if either is missing)",
+]

@@ -1,0 +1,61 @@
+# Ground truth for data/clips/pexels_bricklaying_11355903.mp4 (Phase 6, book Chapter 23).
+# Source: https://www.pexels.com/video/men-working-on-construction-11355903/
+# Pexels licence (free to use and modify, no attribution required: https://www.pexels.com/license/). Converted to 1280x720, 15 frames/s, no sound (like a CCTV stream).
+# Format: src/ppe_monitor/evaluation/truth.py.
+clip: pexels_bricklaying_11355903.mp4
+fps: 15.0
+duration: 16.067
+private: false
+checked: [no_helmet]
+complete: true
+source: 'hand-annotated, 28 Sep 2026: every person near enough to judge checked by eye (head crops from
+  the original 1080p/1440p file and frame sheets); boxes follow the tracker''s box for that person'
+notes: Two masons build a brick wall, both in baseball caps, not helmets, for the whole clip. The yellow
+  jerrycan in front is not a person.
+episodes:
+- kind: no_helmet
+  start: 0.0
+  end: 16.067
+  sustained: true
+  boxes:
+    0.0: [0.5541, 0.2192, 0.6532, 0.6275]
+    1.0: [0.5408, 0.226, 0.6411, 0.62]
+    2.0: [0.5261, 0.3387, 0.5998, 0.6208]
+    3.0: [0.5255, 0.3032, 0.5989, 0.6555]
+    4.0: [0.5265, 0.3347, 0.6009, 0.6514]
+    5.0: [0.5277, 0.3548, 0.6055, 0.6639]
+    6.0: [0.5307, 0.3277, 0.6059, 0.6653]
+    7.0: [0.5324, 0.3637, 0.61, 0.6631]
+    8.0: [0.5309, 0.3134, 0.5997, 0.6721]
+    9.0: [0.5443, 0.2657, 0.6131, 0.6696]
+    10.0: [0.5444, 0.279, 0.6117, 0.6811]
+    11.0: [0.5432, 0.2895, 0.6086, 0.7008]
+    12.0: [0.5381, 0.2927, 0.6277, 0.6972]
+    13.0: [0.5294, 0.2953, 0.6255, 0.7047]
+    14.0: [0.5359, 0.2883, 0.6335, 0.7015]
+    15.0: [0.5358, 0.294, 0.638, 0.7075]
+    16.0: [0.5331, 0.2997, 0.6099, 0.7131]
+  note: man in a blue shirt, baseball cap (not a helmet)
+- kind: no_helmet
+  start: 0.0
+  end: 16.067
+  sustained: true
+  boxes:
+    0.0: [0.3795, 0.3239, 0.45, 0.6784]
+    1.0: [0.3582, 0.4338, 0.4509, 0.6857]
+    2.0: [0.3535, 0.4474, 0.4433, 0.6885]
+    3.0: [0.3544, 0.4417, 0.4367, 0.6992]
+    4.0: [0.3659, 0.4544, 0.4491, 0.7101]
+    5.0: [0.3674, 0.466, 0.4497, 0.711]
+    6.0: [0.3623, 0.3578, 0.4349, 0.7095]
+    7.0: [0.3564, 0.3679, 0.4328, 0.7091]
+    8.0: [0.3439, 0.3774, 0.433, 0.7304]
+    9.0: [0.3506, 0.3871, 0.4341, 0.7113]
+    10.0: [0.3492, 0.4035, 0.4291, 0.7341]
+    11.0: [0.3447, 0.4248, 0.434, 0.7381]
+    12.0: [0.341, 0.424, 0.4285, 0.7585]
+    13.0: [0.3412, 0.4161, 0.4267, 0.7584]
+    14.0: [0.3302, 0.4034, 0.4289, 0.7493]
+    15.0: [0.3338, 0.5249, 0.4368, 0.7574]
+    16.0: [0.3428, 0.4533, 0.4377, 0.7587]
+  note: man in a beige shirt, baseball cap (not a helmet)

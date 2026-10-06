@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Local tools (MediaMTX binary is downloaded per machine)
+tools/*
+!tools/.gitkeep
+
+# Video clips never go in git: they are large and may show real people.
+data/clips/*
+!data/clips/.gitkeep
+!data/clips/clips_catalog.csv
+
+# Runtime output
+logs/*
+!logs/.gitkeep
+
+# Phase 1: downloaded/built datasets, training runs, trained weights (large; rebuildable)
+datasets/
+runs/
+models/*.pt
+models/pretrained/
+# ...except the model in use (5 MB), so a fresh copy of the repository can watch cameras at once.
+# Older models, candidates and Core ML / ONNX exports stay local: rebuild them with the scripts.
+!models/ppe4caps_yolo26n_caps2.pt
+models/candidates/
+models/exported/
+
+# Secrets (used from Phase 5 onward)
+.env
+configs/secrets.env
+
+# Phase 5: the local database server's files, evidence images, live pictures
+data/postgres/
+data/events/
+data/*.sqlite*

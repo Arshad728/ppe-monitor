@@ -1,0 +1,54 @@
+# Ground truth for data/clips/pexels_street_site_30157703.mp4 (Phase 6, book Chapter 23).
+# Source: https://www.pexels.com/video/urban-street-construction-with-workers-and-equipment-30157703/
+# Pexels licence (free to use and modify, no attribution required: https://www.pexels.com/license/). Converted to 1280x720, 15 frames/s, no sound (like a CCTV stream).
+# Format: src/ppe_monitor/evaluation/truth.py.
+clip: pexels_street_site_30157703.mp4
+fps: 15.0
+duration: 7.2
+private: false
+checked: [no_helmet]
+complete: true
+source: 'hand-annotated, 28 Sep 2026: every person near enough to judge checked by eye (head crops from
+  the original 1080p/1440p file and frame sheets); boxes follow the tracker''s box for that person'
+notes: A street works site with an excavator. The man in a checked blue shirt has no helmet and walks
+  towards the camera and out on the right. The man bent over in a pink cap has no helmet, but is small
+  (about 90 px tall at 720p, under the size the rule judges). A boy sits behind the barrier at the bottom
+  left, head only.
+episodes:
+- kind: no_helmet
+  start: 0.0
+  end: 7.2
+  sustained: true
+  boxes:
+    0.0: [0.736, 0.5517, 0.7949, 0.8147]
+    1.0: [0.7248, 0.5684, 0.7942, 0.84]
+    2.0: [0.7272, 0.5787, 0.8112, 0.8986]
+    3.0: [0.7444, 0.596, 0.8522, 0.9932]
+    4.0: [0.8435, 0.6274, 1.0, 0.9941]
+    5.067: [0.9648, 0.687, 1.0, 0.999]
+    6.067: [0.9493, 0.6354, 0.9999, 0.9976]
+    7.067: [0.9638, 0.6676, 1.0, 1.0]
+    7.133: [0.9634, 0.663, 1.0, 1.0]
+  note: man in a checked blue shirt, no helmet; leaves on the right after 5 s
+- kind: no_helmet
+  start: 0.0
+  end: 7.2
+  sustained: true
+  boxes:
+    0.0: [0.6279, 0.598, 0.6884, 0.7454]
+    1.0: [0.6192, 0.599, 0.6756, 0.7308]
+    2.0: [0.6033, 0.617, 0.6532, 0.7375]
+    3.0: [0.6033, 0.6167, 0.646, 0.7508]
+    4.0: [0.5951, 0.6181, 0.6493, 0.7475]
+    5.0: [0.6014, 0.6174, 0.6517, 0.7456]
+    6.0: [0.6062, 0.6126, 0.6516, 0.7493]
+    7.133: [0.6009, 0.5571, 0.6439, 0.7383]
+  note: man bent over in a pink baseball cap, no helmet; small (about 90 px tall)
+- kind: no_helmet
+  start: 0.0
+  end: 7.2
+  sustained: false
+  boxes:
+    0.0: [0.1682, 0.7289, 0.2353, 0.9948]
+    0.733: [0.1545, 0.7226, 0.2325, 0.9935]
+  note: boy behind the barrier at the bottom left, head and shoulders only; maybe not a worker

@@ -1,0 +1,15 @@
+# Ground truth for data/clips/pexels_stonewall_closeup_19832500.mp4 (Phase 6, book Chapter 23).
+# Source: https://www.pexels.com/video/a-group-of-men-in-orange-vests-and-hard-hats-working-on-a-construction-site-19832500/
+# Pexels licence (free to use and modify, no attribution required: https://www.pexels.com/license/). Converted to 1280x720, 15 frames/s, no sound (like a CCTV stream).
+# Format: src/ppe_monitor/evaluation/truth.py.
+clip: pexels_stonewall_closeup_19832500.mp4
+fps: 15.0
+duration: 4.867
+private: false
+checked: [no_helmet]
+complete: true
+source: 'hand-annotated, 28 Sep 2026: every person near enough to judge checked by eye (head crops from
+  the original 1080p/1440p file and frame sheets); boxes follow the tracker''s box for that person'
+notes: Masons at a stone wall, close up, all in yellow helmets. The man at the left edge has his head
+  out of the frame.
+episodes: []

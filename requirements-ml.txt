@@ -1,0 +1,11 @@
+# Phase 1+: training and running the detector. Installs PyTorch too (requirements-gpu.txt).
+#   pip install -r requirements-ml.txt
+-r requirements-gpu.txt
+# Tested version. Ultralytics is AGPL-3.0 licensed: fine for learning and portfolio projects;
+# check the licence before shipping it inside a commercial product.
+ultralytics==8.4.159
+# Must match PyTorch: 0.29 goes with torch 2.14 (macOS 14+), 0.26 with torch 2.11 (older macOS);
+# pip picks the right one from this range.
+torchvision>=0.26,<0.30
+# the tracker's assignment solver; Ultralytics installs it on first use otherwise
+lap==0.5.13

@@ -1,0 +1,13 @@
+# Exact versions tested for Phase 0. Install with:
+#   pip install -r requirements-dev.txt && pip install -e .
+#
+# Python: 3.11 recommended (3.10-3.12 supported). 3.11 has the widest
+# wheel coverage for the libraries later phases add (PyTorch, Ultralytics,
+# ONNX Runtime), including on Apple Silicon.
+numpy==2.3.5
+# Full OpenCV build (includes the window GUI used by scripts/view_stream.py).
+# On a server with no display, swap for opencv-python-headless==4.14.0.94.
+# OpenCV 5.x exists but is held back until later phases confirm Ultralytics
+# works with it.
+opencv-python==4.14.0.94
+PyYAML==6.0.3
